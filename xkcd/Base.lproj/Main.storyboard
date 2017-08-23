@@ -21,11 +21,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6o6-7i-sN8">
+                                <rect key="frame" x="35.666666666666657" y="28.000000000000004" width="343" height="20.333333333333339"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="fdI-56-MyQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KA3-qH-0tP" customClass="ImageScrollView" customModule="ImageScrollView">
-                                <rect key="frame" x="0.0" y="128" width="414" height="375"/>
+                                <rect key="frame" x="0.0" y="68" width="414" height="584"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Pkt-CR-den">
+                                        <rect key="frame" x="197" y="251" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Pkt-CR-den" secondAttribute="trailing" constant="374" id="EuX-yc-5ZO"/>
+                                    <constraint firstAttribute="bottom" secondItem="Pkt-CR-den" secondAttribute="bottom" constant="457" id="J7p-Re-AwS"/>
+                                    <constraint firstItem="Pkt-CR-den" firstAttribute="centerX" secondItem="KA3-qH-0tP" secondAttribute="centerX" id="MbI-e1-gjc"/>
+                                    <constraint firstItem="Pkt-CR-den" firstAttribute="centerY" secondItem="KA3-qH-0tP" secondAttribute="centerY" constant="-31" id="U0j-cy-Vkb"/>
+                                </constraints>
                             </scrollView>
                             <stackView opaque="NO" tag="4" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="eRE-C7-rIT">
-                                <rect key="frame" x="25" y="526" width="365" height="30"/>
+                                <rect key="frame" x="24.666666666666657" y="660" width="365" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BC7-h8-bnd">
                                         <rect key="frame" x="0.0" y="0.0" width="57" height="30"/>
@@ -81,7 +101,7 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57T-37-voD">
-                                <rect key="frame" x="187" y="686" width="40" height="30"/>
+                                <rect key="frame" x="187" y="698" width="40" height="30"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Share">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -90,35 +110,19 @@
                                     <action selector="shareAction:" destination="7UH-Qc-yTC" eventType="touchUpInside" id="dFc-L0-jN0"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6o6-7i-sN8">
-                                <rect key="frame" x="36" y="85.666666666666686" width="343" height="20.333333333333329"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="343" id="fdI-56-MyQ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Pkt-CR-den">
-                                <rect key="frame" x="197" y="305" width="20" height="20"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="KA3-qH-0tP" firstAttribute="leading" secondItem="uOy-06-jdY" secondAttribute="leading" id="30r-zq-SEB"/>
-                            <constraint firstItem="6o6-7i-sN8" firstAttribute="centerX" secondItem="KA3-qH-0tP" secondAttribute="centerX" id="5JI-Yh-1wp"/>
-                            <constraint firstItem="Pkt-CR-den" firstAttribute="centerX" secondItem="6o6-7i-sN8" secondAttribute="centerX" id="9O8-Qp-iCa"/>
-                            <constraint firstAttribute="trailing" secondItem="KA3-qH-0tP" secondAttribute="trailing" id="DAd-j7-Sp4"/>
-                            <constraint firstItem="6o6-7i-sN8" firstAttribute="centerX" secondItem="eRE-C7-rIT" secondAttribute="centerX" id="MiE-kA-RIx"/>
-                            <constraint firstItem="57T-37-voD" firstAttribute="centerX" secondItem="uOy-06-jdY" secondAttribute="centerX" id="aH4-oJ-iSY"/>
-                            <constraint firstItem="kny-49-him" firstAttribute="top" secondItem="57T-37-voD" secondAttribute="bottom" constant="20" id="cQL-qV-xa1"/>
-                            <constraint firstItem="57T-37-voD" firstAttribute="top" secondItem="eRE-C7-rIT" secondAttribute="bottom" constant="130" id="e2b-Qb-cS7"/>
-                            <constraint firstItem="KA3-qH-0tP" firstAttribute="top" secondItem="6o6-7i-sN8" secondAttribute="bottom" constant="21.5" id="jO8-dv-AEP"/>
-                            <constraint firstItem="KA3-qH-0tP" firstAttribute="centerY" secondItem="Pkt-CR-den" secondAttribute="centerY" id="kTm-CS-MuY"/>
-                            <constraint firstItem="KA3-qH-0tP" firstAttribute="top" secondItem="7Pq-eh-UnZ" secondAttribute="bottom" constant="108" id="pSk-5Y-ATW"/>
-                            <constraint firstItem="KA3-qH-0tP" firstAttribute="leading" secondItem="uOy-06-jdY" secondAttribute="leading" id="sND-KX-1tC"/>
-                            <constraint firstItem="Pkt-CR-den" firstAttribute="centerY" secondItem="uOy-06-jdY" secondAttribute="centerY" constant="-53" id="tjV-1z-egV"/>
-                            <constraint firstAttribute="trailing" secondItem="KA3-qH-0tP" secondAttribute="trailing" id="xTM-VV-inf"/>
+                            <constraint firstItem="6o6-7i-sN8" firstAttribute="top" secondItem="7Pq-eh-UnZ" secondAttribute="bottom" constant="8" symbolic="YES" id="Cck-6j-NS5"/>
+                            <constraint firstItem="eRE-C7-rIT" firstAttribute="centerX" secondItem="uOy-06-jdY" secondAttribute="centerX" id="NQC-PH-3tw"/>
+                            <constraint firstItem="6o6-7i-sN8" firstAttribute="centerX" secondItem="uOy-06-jdY" secondAttribute="centerX" id="OeZ-WY-VU3"/>
+                            <constraint firstAttribute="trailing" secondItem="KA3-qH-0tP" secondAttribute="trailing" id="T5z-bM-DvZ"/>
+                            <constraint firstItem="kny-49-him" firstAttribute="top" secondItem="57T-37-voD" secondAttribute="bottom" constant="8" id="Yea-PU-zFt"/>
+                            <constraint firstItem="KA3-qH-0tP" firstAttribute="centerY" secondItem="uOy-06-jdY" secondAttribute="centerY" constant="-8" id="hxV-aH-WZm"/>
+                            <constraint firstItem="eRE-C7-rIT" firstAttribute="centerX" secondItem="57T-37-voD" secondAttribute="centerX" id="kMT-1T-rcq"/>
+                            <constraint firstItem="KA3-qH-0tP" firstAttribute="leading" secondItem="uOy-06-jdY" secondAttribute="leading" id="uKb-3I-Y9Y"/>
+                            <constraint firstItem="eRE-C7-rIT" firstAttribute="top" secondItem="KA3-qH-0tP" secondAttribute="bottom" constant="8" id="vKy-8J-dXE"/>
+                            <constraint firstItem="57T-37-voD" firstAttribute="top" secondItem="eRE-C7-rIT" secondAttribute="bottom" constant="8" id="wTY-cl-erP"/>
                         </constraints>
                     </view>
                     <connections>
@@ -129,7 +133,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kxq-gj-kIE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="210" y="100"/>
+            <point key="canvasLocation" x="198.4375" y="95.5078125"/>
         </scene>
     </scenes>
 </document>

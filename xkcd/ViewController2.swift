@@ -157,18 +157,11 @@ class ViewController2: UIViewController {
     
     func snapshot(view :ImageScrollView ) -> (UIImage)
     {
-        //UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0);
-        
-        //UIGraphicsBeginImageContextWithOptions(imageScrollView.bounds.size, true, 0);
+
         UIGraphicsBeginImageContextWithOptions(imageScrollView.bounds.size, true, 0);
         
         print("images size is: ", self.comicObject.image.size)
         
-        //UIGraphicsBeginImageContextWithOptions(self.comicObject.image.size, true, 0);
-    
-        //imageScrollView.drawHierarchy(in: imageScrollView.bounds, afterScreenUpdates: true)
-        
-//         let imageRect = CGRect(x: imageScrollView.bounds.origin.x, y: imageScrollView.bounds.origin.y, width: self.comicObject.image.size.width, height: self.comicObject.image.size.height)
         
         imageScrollView.drawHierarchy(in: imageScrollView.bounds, afterScreenUpdates: true)
         
@@ -180,20 +173,13 @@ class ViewController2: UIViewController {
 
     func ShareToMedia(image: UIImage){
         
-        //let myWebsite = NSURL(string:"http://www.facebook.com/")
         let myWebsite = NSURL(string:self.comicObject.imgURL)
-        
-        //let img: UIImage = images[indexPath.row]
-        //let img: UIImage = image
-        
-        //let shareItems:Array = [img, myWebsite] as [Any]
+
         let shareItems:Array = [myWebsite as Any]
-        //let shareItems:Array = [img] as [Any]
         
         let activityViewController:UIActivityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
         
         activityViewController.excludedActivityTypes = []
-        //self.present(activityViewController, animated: true, completion: nil)
         
         //if iPhone
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) {
@@ -207,4 +193,10 @@ class ViewController2: UIViewController {
         }
     }
     
+    
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        self.imageScrollView.recover()
+    }
+    
+     
 }
