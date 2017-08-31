@@ -11,6 +11,8 @@ import ImageScrollView
 
 class ViewController2: UIViewController {
 
+    @IBOutlet var randomButton: UIButton!
+    
     @IBOutlet var imageView: UIImageView!
     
     @IBOutlet var titleLabel: UILabel!
@@ -27,6 +29,8 @@ class ViewController2: UIViewController {
         super.viewDidLoad()
 
         getComic()
+        
+        //randomButton.frame.size.width = 65.0
         
         titleLabel.lineBreakMode = .byWordWrapping;
         titleLabel.numberOfLines = 0;
