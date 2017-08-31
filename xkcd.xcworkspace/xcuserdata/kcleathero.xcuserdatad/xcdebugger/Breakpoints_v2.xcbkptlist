@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pods/ImageScrollView/Sources/ImageScrollView.swift"
-            timestampString = "525153392.765746"
+            timestampString = "525576996.009761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "refresh()"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pods/ImageScrollView/Sources/ImageScrollView.swift"
-            timestampString = "525153392.765746"
+            timestampString = "525576996.009761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "recover()"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
+            landmarkName = "zoomRectForScale(_:center:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

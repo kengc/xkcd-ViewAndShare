@@ -161,6 +161,7 @@ open class ImageScrollView: UIScrollView {
         contentSize = imageSize
         setMaxMinZoomScalesForCurrentBounds()
         zoomScale = minimumZoomScale
+        //zoomScale = 0.5
         contentOffset = CGPoint.zero
     }
     
