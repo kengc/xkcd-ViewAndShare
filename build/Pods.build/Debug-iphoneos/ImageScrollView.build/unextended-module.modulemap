@@ -1,0 +1,10 @@
+framework module ImageScrollView {
+  umbrella header "ImageScrollView-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module ImageScrollView.__Swift {
+    exclude header "ImageScrollView-Swift.h"
+}

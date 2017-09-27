@@ -17,7 +17,7 @@ open class ImageScrollView: UIScrollView {
     fileprivate var pointToCenterAfterResize: CGPoint = CGPoint.zero
     fileprivate var scaleToRestoreAfterResize: CGFloat = 1.0
     var maxScaleFromMinScale: CGFloat = 3.0
-    var tapGesture = UITapGestureRecognizer()
+  var tapGesture = UITapGestureRecognizer()
     
     override open var frame: CGRect {
         willSet {
@@ -52,7 +52,6 @@ open class ImageScrollView: UIScrollView {
         decelerationRate = UIScrollViewDecelerationRateFast
         delegate = self
     }
-    
     
     open func recover(){
         let center = self.tapGesture.location(in: self.tapGesture.view)
@@ -149,7 +148,7 @@ open class ImageScrollView: UIScrollView {
         zoomView!.isUserInteractionEnabled = true
         addSubview(zoomView!)
         
-        self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(ImageScrollView.doubleTapGestureRecognizer(_:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ImageScrollView.doubleTapGestureRecognizer(_:)))
         tapGesture.numberOfTapsRequired = 2
         zoomView!.addGestureRecognizer(tapGesture)
         
@@ -161,7 +160,6 @@ open class ImageScrollView: UIScrollView {
         contentSize = imageSize
         setMaxMinZoomScalesForCurrentBounds()
         zoomScale = minimumZoomScale
-        //zoomScale = 0.5
         contentOffset = CGPoint.zero
     }
     
@@ -187,7 +185,6 @@ open class ImageScrollView: UIScrollView {
     }
     
     // MARK: - Gesture
-    
     
     func doubleTapGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
         // zoom out if it bigger than middle scale point. Else, zoom in

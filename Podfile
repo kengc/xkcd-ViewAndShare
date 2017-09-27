@@ -7,4 +7,6 @@ target 'xkcd' do
 
   # Pods for xkcd
 pod 'ImageScrollView'
+pod 'RealmSwift'
+pod 'SideMenu'
 end

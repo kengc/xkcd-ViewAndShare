@@ -8,8 +8,10 @@
 
 import UIKit
 import ImageScrollView
+import SideMenu
+import RealmSwift
 
-class ViewController2: UIViewController {
+class ViewController2: UIViewController, MenuShareDelegate {
 
     @IBOutlet var randomButton: UIButton!
     
@@ -35,7 +37,71 @@ class ViewController2: UIViewController {
         titleLabel.lineBreakMode = .byWordWrapping;
         titleLabel.numberOfLines = 0;
         spinner.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+     
+        setupSideMenu()
+        setDefaults()
+
+        //setup observer for this class
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController2.methodOfReceivedNotification(notification:)), name: Notification.Name("SaveComicNotification"), object: nil)
+        
+    }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Hide the navigation bar on the this view controller
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    
+    func setupSideMenu() {
+        // Define the menus
+        SideMenuManager.menuLeftNavigationController = storyboard!.instantiateViewController(withIdentifier: "LeftMenuNavigationController") as? UISideMenuNavigationController
+        //SideMenuManager.menuRightNavigationController = storyboard!.instantiateViewController(withIdentifier: "RightMenuNavigationController") as? UISideMenuNavigationController
+        
+        // Enable gestures. The left and/or right menus must be set up above for these to work.
+        // Note that these continue to work on the Navigation Controller independent of the View Controller it displays!
+        //SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
+        //SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+        
+        //SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
+        SideMenuManager.menuAddPanGestureToPresent(toView: self.view)
+        //SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.imageScrollView)
+        
+        // Set up a cool background image for demo purposes
+        SideMenuManager.menuAnimationBackgroundColor = UIColor(patternImage: UIImage(named: "stars")!)
+        
+        
+        //present mode = dissolve
+        //menu blur style = light
+        //menu fade status bar = off
+        //menuShadowOpacity 1.0
+        //menuAnimationFadeStrength 0.227138638496399
+
+        
+     
+        print("menuAnimationFadeStrength", SideMenuManager.menuAnimationFadeStrength)
+        
+   
+        print("menuShadowOpacity", SideMenuManager.menuShadowOpacity)
+        
+       
+        print("menuAnimationTransformScaleFactor", SideMenuManager.menuAnimationTransformScaleFactor)
+        
+
+        print("menuWidth", SideMenuManager.menuWidth)
+        
+     
+        print("menuFadeStatusBar", SideMenuManager.menuFadeStatusBar)
+        
+        
+    }
+    
+    func setDefaults() {
+        //let modes:[SideMenuManager.MenuPresentMode] = [.menuSlideIn, .viewSlideOut, .viewSlideInOut, .menuDissolveIn]
+        SideMenuManager.menuPresentMode = .viewSlideInOut
+        SideMenuManager.menuBlurEffectStyle = .light
     }
     
     func getComic(){
@@ -153,9 +219,10 @@ class ViewController2: UIViewController {
     @IBAction func shareAction(_ sender: Any) {
         print("inside saveACion")
         
-        let image = snapshot(view: self.imageScrollView)
-        
-        ShareToMedia(image: image)
+//        let image = snapshot(view: self.imageScrollView)
+//
+//        ShareToMedia(image: image)
+         ShareToMedia()
     }
     
     
@@ -174,8 +241,64 @@ class ViewController2: UIViewController {
         
         return image;
     }
-
-    func ShareToMedia(image: UIImage){
+    
+    //func ShareToMedia(image: UIImage){
+    
+   public var getComicObject: ComicModel {
+        get{
+            return comicObject
+        }
+    }
+    
+//    func ifIdExists(findID: String) -> SaveComicModel?{
+//
+//        let predicate = NSPredicate(format: "id = %@", findID)
+//        let object = realm.objects(SaveComicModel.self).filter(predicate).first
+//        if object?.id == findID {
+//
+//            return object
+//
+//        }
+//        return nil
+//    }
+    
+    func methodOfReceivedNotification(notification: Notification){
+        print("in the NSNotificatin receiver method")
+        
+        //NotificationCenter.default.removeObserver(self) //removed the observer
+        
+        let saveComicObject = SaveComicModel()
+        saveComicObject.comicLink = self.comicObject.comicLink
+        saveComicObject.comicNum = self.comicObject.comicNum
+        saveComicObject.imgURL = self.comicObject.imgURL
+        saveComicObject.title = self.comicObject.shortTitle
+        
+        
+        let myPrimaryKey = "Primary-Key"
+        // Get the default Realm
+        let realm = try! Realm()
+        
+        let specificComic = realm.object(ofType: SaveComicModel.self, forPrimaryKey: myPrimaryKey)
+        
+        if specificComic != nil {
+            //don't add
+            let alert = UIAlertController(title: "Did not save", message: "Comic already exists", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                print("OK")
+            })
+            
+            self.present(alert, animated: true)
+        } else {
+            //add our object to the DB
+            // Persist your data easily
+            try! realm.write {
+                realm.add(saveComicObject)
+            }
+        }
+    }
+    
+     public func ShareToMedia(){
         
         let myWebsite = NSURL(string:self.comicObject.imgURL)
 

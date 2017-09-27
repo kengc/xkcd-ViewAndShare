@@ -22,6 +22,4 @@ class ComicModel {
     var image = UIImage()
     var title = String() //"title": "Woodpecker",
     var day = String() //"day": "24"
-
-
 }
