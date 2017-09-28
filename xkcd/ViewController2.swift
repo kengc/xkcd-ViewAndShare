@@ -110,61 +110,6 @@ class ViewController2: UIViewController {
         }
     }
     
-    
-    @IBAction func RandomAction(_ sender: UIButton) {
-        
-        //get random number
-        let randomComicNum = ComicHelper.randomNumber(inRange: 1...self.totalComicNum)
-        
-        APIDataHelper.fetchComic(comicNum: randomComicNum) { (comic, error) in
-            if let error = error {
-                self.displayAlert(error: error)
-            } else {
-                self.setViews(comic:comic)
-            }
-        }
-    }
-    
-    
-    @IBAction func NextAction(_ sender: UIButton) {
-        
-        if currentComicNum != totalComicNum {
-            
-            APIDataHelper.fetchComic(comicNum: currentComicNum + 1) { (comic, error) in
-                if let error = error {
-                    self.displayAlert(error: error)
-                } else {
-                    self.setViews(comic:comic)
-                }
-            }
-        }
-    }
-    
-    
-    @IBAction func PrevAction(_ sender: UIButton) {
-        
-        if currentComicNum != 1 {
-            
-            APIDataHelper.fetchComic(comicNum: currentComicNum - 1) { (comic, error) in
-                if let error = error {
-                    self.displayAlert(error: error)
-                } else {
-                    self.setViews(comic:comic)
-                }
-            }
-        }
-    }
-    
-    @IBAction func firstAction(_ sender: UIButton) {
-        APIDataHelper.fetchComic(comicNum: 1) { (comic, error) in
-            if let error = error {
-                self.displayAlert(error: error)
-            } else {
-                self.setViews(comic:comic)
-            }
-        }
-    }
-    
     @IBAction func lastAction(_ sender: UIButton) {
         APIDataHelper.fetchComic(comicNum: 0) { (comic, error) in
             if let error = error {
@@ -175,6 +120,34 @@ class ViewController2: UIViewController {
             }
         }
     }
+    
+    @IBAction func RandomAction(_ sender: UIButton) {
+        //get random number
+        let randomComicNum = ComicHelper.randomNumber(inRange: 1...self.totalComicNum)
+        FetchComic(comicID: randomComicNum)
+    }
+    
+    
+    @IBAction func NextAction(_ sender: UIButton) {
+        
+        if currentComicNum != totalComicNum {
+            FetchComic(comicID: currentComicNum + 1)
+        }
+    }
+    
+    
+    @IBAction func PrevAction(_ sender: UIButton) {
+        
+        if currentComicNum != 1 {
+            FetchComic(comicID: currentComicNum - 1)
+        }
+    }
+    
+    @IBAction func firstAction(_ sender: UIButton) {
+        FetchComic(comicID: 1)
+    }
+    
+   
     
     func FetchComic(comicID: Int){
         APIDataHelper.fetchComic(comicNum: comicID) { (comic, error) in
@@ -311,7 +284,6 @@ class ViewController2: UIViewController {
     func ShowFavoriteComicNotification(notification: Notification){
         if let comic = notification.userInfo?["favorite"] as? SaveComicModel {
                 FetchComic(comicID: comic.comicNum)
-
         }
     }
 }

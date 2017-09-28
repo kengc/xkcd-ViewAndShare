@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "xkcd/ViewController2.swift"
-            timestampString = "528249903.601696"
+            timestampString = "528265726.986384"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
-            landmarkName = "displayAlert(error:)"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
+            landmarkName = "setViews(comic:)"
             landmarkType = "7">
             <Locations>
                <Location

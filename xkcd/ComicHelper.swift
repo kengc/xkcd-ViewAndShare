@@ -15,6 +15,5 @@ class ComicHelper {
         let value = arc4random().toIntMax() % length + range.lowerBound.toIntMax()
         return T(value)
     }
-    
-    
+
 }
