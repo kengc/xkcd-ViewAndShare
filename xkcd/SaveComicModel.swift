@@ -19,6 +19,6 @@ class SaveComicModel : Object {
     dynamic var imgURL = String()
     
     override static func primaryKey() -> String? {
-        return "comicID"
+        return "imgURL"
     }
 }

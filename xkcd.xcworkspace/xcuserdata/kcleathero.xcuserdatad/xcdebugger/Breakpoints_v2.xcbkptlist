@@ -42,91 +42,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "xkcd/ViewController2.swift"
-            timestampString = "528182191.813587"
+            timestampString = "528249903.601696"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
-            landmarkName = "methodOfReceivedNotification(notification:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "xkcd/ViewController2.swift"
-            timestampString = "528182191.813661"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
-            landmarkName = "methodOfReceivedNotification(notification:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "xkcd/ViewController2.swift"
-            timestampString = "528182191.813712"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
-            landmarkName = "methodOfReceivedNotification(notification:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "xkcd/CustomTableController.swift"
-            timestampString = "528182191.813768"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "tableView(_:commit:forRowAt:)"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
+            landmarkName = "displayAlert(error:)"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "xkcd.CustomTableController.tableView(__ObjC.UITableView, commit: __C.UITableViewCellEditingStyle, forRowAt: Foundation.IndexPath) -&gt; ()"
+                  symbolName = "xkcd.ViewController2.FetchComic(comicID: Swift.Int) -&gt; ()"
                   moduleName = "xkcd"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kcleathero/Desktop/iOS%20Projects/xkcd/xkcd/CustomTableController.swift"
-                  timestampString = "528182191.915558"
+                  urlString = "file:///Users/kcleathero/Desktop/iOS%20Projects/xkcd/xkcd/ViewController2.swift"
+                  timestampString = "528247851.291736"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "97"
-                  endingLineNumber = "97"
-                  offsetFromSymbolStart = "362">
+                  startingLineNumber = "189"
+                  endingLineNumber = "189"
+                  offsetFromSymbolStart = "18">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in xkcd.CustomTableController.tableView(__ObjC.UITableView, commit: __C.UITableViewCellEditingStyle, forRowAt: Foundation.IndexPath) -&gt; ()"
+                  symbolName = "closure #1 (xkcd.ComicModel, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in xkcd.ViewController2.FetchComic(comicID: Swift.Int) -&gt; ()"
                   moduleName = "xkcd"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kcleathero/Desktop/iOS%20Projects/xkcd/xkcd/CustomTableController.swift"
-                  timestampString = "528182191.917665"
+                  urlString = "file:///Users/kcleathero/Desktop/iOS%20Projects/xkcd/xkcd/ViewController2.swift"
+                  timestampString = "528247851.293489"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "98"
-                  endingLineNumber = "98"
-                  offsetFromSymbolStart = "18">
+                  startingLineNumber = "190"
+                  endingLineNumber = "190"
+                  offsetFromSymbolStart = "22">
                </Location>
             </Locations>
          </BreakpointContent>

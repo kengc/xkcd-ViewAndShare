@@ -78,7 +78,21 @@ class CustomTableController: UITableViewController {
         return cell
     }
  
-
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Did select at: ", indexPath.row)
+        
+        let comic = comicObjects[indexPath.row]
+        let comicDataDict:[String: SaveComicModel] = ["favorite": comic]
+    
+        //dismiss(animated: true, completion: nil)
+   
+        self.navigationController?.popViewController(animated: true)
+        
+        NotificationCenter.default.post(name: Notification.Name("ShowFavoriteComicNotification"), object: nil, userInfo: comicDataDict)
+        
+  
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
