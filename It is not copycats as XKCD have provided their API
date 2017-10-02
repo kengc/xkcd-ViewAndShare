@@ -1,0 +1,16 @@
+It is not copycats as XKCD have provided their API FREE of charge for the purpose of allowing
+people like myself to create an app based on their comic API. The XKCD API
+is very limited in what information is sent. The api is specific to comic information only, that's all i have to work with. 
+
+I Added the following mobile specific functionality...
+
+1) Sharing a comic via email, social media etc
+2) Saving a favorite comic
+3) Retrieving a favorite comic
+4) pinch zoom in/out
+5) double tap zoom in/out
+6) Swipe slide menu
+
+It's a comic app, there isn't a whole lot one can do with a comic. Maybe altering or distorting the comic content which is something i won't do. 
+
+Honestly Apple will allow something is simple and silly as a farting piano app onto the app store with hardly any features or mobile specific functionality but you wont allow my app? 

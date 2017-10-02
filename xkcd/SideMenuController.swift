@@ -31,12 +31,7 @@ class SideMenuController: UITableViewController {
         super.viewWillAppear(animated)
         
         print("SideMenu Appearing!")
-        
-        // Set up a cool background image for demo purposes
-//        let imageView = UIImageView(image: UIImage(named: "background"))
-//        imageView.contentMode = .scaleAspectFit
-//        imageView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-//        tableView.backgroundView = imageView
+
     }
     
 
@@ -48,6 +43,10 @@ class SideMenuController: UITableViewController {
         if indexPath.row == 1 {
             self.dismiss(animated: true, completion: nil)
             performSegue(withIdentifier: "ShowSavedSegue", sender: nil)
+        }
+        if indexPath.row == 2 {
+           self.dismiss(animated: true, completion: nil)
+            NotificationCenter.default.post(name: Notification.Name("SetComicWallpaperNotification"), object: nil)
         }
     }
   

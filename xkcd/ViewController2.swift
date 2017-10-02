@@ -50,6 +50,7 @@ class ViewController2: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController2.methodOfReceivedNotification(notification:)), name: Notification.Name("SaveComicNotification"), object: nil)
     
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController2.ShowFavoriteComicNotification(notification:)), name: Notification.Name("ShowFavoriteComicNotification"), object: nil)
+        
     }
     
     
@@ -68,7 +69,7 @@ class ViewController2: UIViewController {
         SideMenuManager.menuAddPanGestureToPresent(toView: self.view)
         
         // Set up a cool background image for demo purposes
-        SideMenuManager.menuAnimationBackgroundColor = UIColor(patternImage: UIImage(named: "stars")!)
+        SideMenuManager.menuAnimationBackgroundColor = UIColor(patternImage: UIImage(named: "grey3")!)
 
 
         
@@ -252,6 +253,8 @@ class ViewController2: UIViewController {
             }
         }
     }
+    
+    
     
      public func ShareToMedia(){
         
