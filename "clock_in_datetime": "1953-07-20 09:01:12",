@@ -1,0 +1,64 @@
+      "clock_in_datetime": "1953-07-20 09:01:12",
+      "clock_out_datetime": "1953-07-20 14:50:59"
+
+      5:51 hrs
+      # of time periods = 2
+    },
+
+    {
+      "employee_id": 2,
+      "clock_in_datetime": "2017-02-04 19:30:36",
+      "clock_out_datetime": "2017-02-05 03:04:41"
+
+      8:34 hrs
+      # of time periods = 2 
+      PERIOD 3 - 2:29:24
+      PERIOD 4 - 3:04:41?
+
+    },
+    {
+      "employee_id": 3,
+      "clock_in_datetime": "2012-11-12 00:00:00",
+      "clock_out_datetime": "2012-11-13 23:59:59"
+
+      24 hrs
+      # of time periods = 4
+
+    },
+
+//chell johnson //////////////////////////////////////////////
+  {
+      "employee_id": 1,
+      "clock_in_datetime": "2017-02-07 10:05:12",
+      "clock_out_datetime": "2017-02-07 14:50:59"
+
+      4:45:47 hrs
+      # of time periods = 2. PERIOD 1 & PERIOD 2
+
+      PERIOD 1 = 1:54:48
+      PERIOD 2 = 2:50:59 (subtract 4:45:47 - 1:54:48). OR 
+
+    },
+    {
+      "employee_id": 1,
+      "clock_in_datetime": "2017-02-04 09:05:12",
+      "clock_out_datetime": "2017-02-04 11:50:59"
+
+      2:45:47 hrs
+      # of time periods = 1  PERIOD 1
+
+    },
+    {
+      "employee_id": 1,
+      "clock_in_datetime": "2017-02-04 12:28:27",
+      "clock_out_datetime": "2017-02-04 20:16:24"
+
+      7:47:57 hrs
+      Period2: 
+      Period3: 
+      # of time periods = 3.  PERIOD 2 & PERIOD 3 
+
+      total 16.54
+      PERIOD1: 4:40:35
+      PERIOD2: 
+      PERIOD3: 

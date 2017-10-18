@@ -17,8 +17,18 @@ class SaveComicModel : Object {
     dynamic var comicLink =  String() //"link": "",
     dynamic var title = String() //"title": "Woodpecker",
     dynamic var imgURL = String()
+    dynamic var imgName : String?
     
     override static func primaryKey() -> String? {
         return "imgURL"
     }
+    
+//    func getImageURL() -> URL? {
+//        
+//       guard let path = self.imgPath else {
+//            return nil
+//        }
+//        return URL(string: path)
+//    }
+    
 }

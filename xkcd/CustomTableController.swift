@@ -9,7 +9,9 @@
 import UIKit
 import RealmSwift
 
+
 class CustomTableController: UITableViewController {
+    
     
     var comicObjects = [SaveComicModel]()
     let realm = try! Realm()
@@ -98,21 +100,50 @@ class CustomTableController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            //#1 delete in database
+            
             let removeComic = self.comicObjects[indexPath.row]
+  
+            
+            //#1 delete image from disk
+            let fileManager = FileManager.default
+            
+            do {
+                let documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+
+                if let _ = removeComic.imgName?.isEmpty, !(removeComic.imgName?.isEmpty)! {
+                    
+                   let fileURL = documentsDirectory.appendingPathComponent((removeComic.imgName)!)
+                    do {
+                        try fileManager.removeItem(atPath: fileURL.path)
+                    }
+                    catch let error as NSError {
+                        print("Delete from disk failed: \(error)")
+                    }
+                    
+                }
+            } catch{
+                print(error)
+            }
+            
+            //#2 delete in database
             try! realm.write {
                 realm.delete(removeComic)
             }
             
-            //#2 delete from data array
+            //#3 delete from data array
             self.comicObjects.remove(at: indexPath.row)
             
-            //#3 Delete the row from the data source
+            //#4 Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
             
             
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        //implement delegate callback to set flag
+         NotificationCenter.default.post(name: Notification.Name("SetLoadFromDBNotification"), object: nil, userInfo: nil)
     }
 }

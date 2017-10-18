@@ -44,10 +44,10 @@ class SideMenuController: UITableViewController {
             self.dismiss(animated: true, completion: nil)
             performSegue(withIdentifier: "ShowSavedSegue", sender: nil)
         }
-        if indexPath.row == 2 {
-           self.dismiss(animated: true, completion: nil)
-            NotificationCenter.default.post(name: Notification.Name("SetComicWallpaperNotification"), object: nil)
-        }
+//        if indexPath.row == 2 {
+//           self.dismiss(animated: true, completion: nil)
+//            NotificationCenter.default.post(name: Notification.Name("SetComicWallpaperNotification"), object: nil)
+//        }
     }
   
    

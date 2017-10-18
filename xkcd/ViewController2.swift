@@ -31,11 +31,19 @@ class ViewController2: UIViewController {
     var totalComicNum:Int = 0
     var currentComicNum:Int = 1
     var comicObject = ComicModel()
+    var loadFromDB = false
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if !loadFromDB{
+            getComic()
+        }
+        loadFromDB = false
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        getComic()
+        //getComic()
         
         //randomButton.frame.size.width = 65.0
         
@@ -47,9 +55,11 @@ class ViewController2: UIViewController {
         setDefaults()
 
         //setup observer for this class
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController2.methodOfReceivedNotification(notification:)), name: Notification.Name("SaveComicNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController2.SaveFavoriteComicNotification(notification:)), name: Notification.Name("SaveComicNotification"), object: nil)
     
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController2.ShowFavoriteComicNotification(notification:)), name: Notification.Name("ShowFavoriteComicNotification"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController2.SetLoadFromDBNotification(notification:)), name: Notification.Name("SetLoadFromDBNotification"), object: nil)
         
     }
     
@@ -96,67 +106,110 @@ class ViewController2: UIViewController {
         SideMenuManager.menuPresentMode = .viewSlideInOut
         SideMenuManager.menuBlurEffectStyle = .light
     }
+
     
     func getComic(){
         
-        APIDataHelper.fetchComic(comicNum: 0)  { (comic, error) in
+        if CheckNetworkStatus(){
+        
+            APIDataHelper.fetchComic(comicNum: 0)  { (comic, error) in
             
-            if let error = error {
-                self.displayAlert(error: error)
-            } else {
+                if let error = error {
+                    self.displayAlert(error: error)
+                } else {
                 
-                self.totalComicNum = comic.comicNum
-                self.setViews(comic:comic)
+                    self.totalComicNum = comic.comicNum
+                    self.SetViewWithAPIImage(comic:comic)
+                }
             }
+        } //if
+        else {
+            self.SetDefaultImage()
         }
     }
     
     @IBAction func lastAction(_ sender: UIButton) {
+        
+      if CheckNetworkStatus(){
         APIDataHelper.fetchComic(comicNum: 0) { (comic, error) in
             if let error = error {
                 self.displayAlert(error: error)
             } else {
                 self.totalComicNum = comic.comicNum
-                self.setViews(comic:comic)
+                self.SetViewWithAPIImage(comic:comic)
             }
+        }
+      } else {
+        self.SetDefaultImage()
         }
     }
     
     @IBAction func RandomAction(_ sender: UIButton) {
         //get random number
-        let randomComicNum = ComicHelper.randomNumber(inRange: 1...self.totalComicNum)
-        FetchComic(comicID: randomComicNum)
+        if CheckNetworkStatus(){
+            if (self.totalComicNum < 1){
+                getComic()
+            }
+            else {
+                let randomComicNum = ComicHelper.randomNumber(inRange: 1...self.totalComicNum)
+                FetchComic(comicID: randomComicNum)
+            }
+        } else {
+            self.SetDefaultImage()
+        }
     }
     
     
     @IBAction func NextAction(_ sender: UIButton) {
         
-        if currentComicNum != totalComicNum {
-            FetchComic(comicID: currentComicNum + 1)
+        if CheckNetworkStatus(){
+            
+            if totalComicNum < 2 {
+                getComic()
+            } else if currentComicNum != totalComicNum {
+                FetchComic(comicID: currentComicNum + 1)
+            }
+        } else {
+            self.SetDefaultImage()
         }
     }
     
     
     @IBAction func PrevAction(_ sender: UIButton) {
-        
-        if currentComicNum != 1 {
-            FetchComic(comicID: currentComicNum - 1)
+      
+        if CheckNetworkStatus(){
+            if currentComicNum > 1 {
+                FetchComic(comicID: currentComicNum - 1)
+            } else {
+                getComic()
+            }
+        } else {
+            self.SetDefaultImage()
         }
     }
     
     @IBAction func firstAction(_ sender: UIButton) {
-        FetchComic(comicID: 1)
+       if CheckNetworkStatus(){
+            FetchComic(comicID: 1)
+        } else {
+            self.SetDefaultImage()
+        }
     }
     
    
     
     func FetchComic(comicID: Int){
+        
+      if CheckNetworkStatus(){
         APIDataHelper.fetchComic(comicNum: comicID) { (comic, error) in
             if let error = error {
                 self.displayAlert(error: error)
             } else {
-                self.setViews(comic:comic)
+                self.SetViewWithAPIImage(comic:comic)
             }
+        }
+      } else {
+        self.SetDefaultImage()
         }
     }
     
@@ -172,23 +225,97 @@ class ViewController2: UIViewController {
         self.present(alert, animated: true)
     }
     
-    func setViews(comic:ComicModel){
+    
+    
+    func CheckNetworkStatus() -> Bool {
+        
+        var available = true
+        
+        Reachability.isInternetAvailable(webSiteToPing: nil) { (isInternetAvailable) in
+            if !(isInternetAvailable) {
+            
+            //guard isInternetAvailable else {
+                // Inform user for example
+                //var errorTemp = NSError(domain:"", code:.statusCode, userInfo:nil)
+                //"No connectivity available")
+                let userInfo: [AnyHashable : Any] =
+                    [
+                        NSLocalizedDescriptionKey :  NSLocalizedString("No Network Connectivity", value: "No Network Connectivity", comment: "") ,
+                        // NSLocalizedFailureReasonErrorKey : NSLocalizedString("Unauthorized", value: "Account not activated", comment: "")
+                        //NSLocalizedFailureReasonErrorKey : NSLocalizedString("Unauthorized", value: "Account not activated", comment: "")
+                ]
+                let err = NSError(domain: "ShiploopHttpResponseErrorDomain", code: 401, userInfo: userInfo)
+                print("Error in Post: \(err.localizedDescription)")
+                
+                self.displayAlert(error: err)
+                available = false
+            } else{
+                available = true
+            }
+        }
+        return available
+    }
+    
+    func SetViewWithAPIImage(comic:ComicModel){
         
         self.spinner.center = (self.imageScrollView.center)
         self.spinner.color = UIColor.black
         self.spinner.startAnimating()
         self.spinner.hidesWhenStopped = true
         self.comicObject = comic
+    
+            // Do some action if there is Internet
+            APIDataHelper.fetchImage(comic: comic) { (image) in
+                
+                self.imageScrollView.display(image: image)
+                self.comicObject.image = image
+                self.spinner.stopAnimating()
+            }
         
-        APIDataHelper.fetchImage(comic: comic) { (image) in
-            
-            self.imageScrollView.display(image: image)
-            self.comicObject.image = image
-            self.spinner.stopAnimating()
-        }
         self.currentComicNum = comic.comicNum
         self.titleLabel.text = comic.shortTitle
     
+    }
+    
+    func SetDefaultImage(){
+        let defaultImage = UIImage(named:"noimage.png")
+        self.imageScrollView.display(image: defaultImage!)
+        self.titleLabel.text = "No Connectivity"
+    }
+    
+    func SetViewWithCacheImage(comic:SaveComicModel){
+        
+        self.spinner.center = (self.imageScrollView.center)
+        self.spinner.color = UIColor.black
+        self.spinner.startAnimating()
+        self.spinner.hidesWhenStopped = true
+        
+        self.comicObject.comicLink = comic.comicLink
+        self.comicObject.comicNum = comic.comicNum
+        self.comicObject.imgURL = comic.imgURL
+        self.comicObject.title = comic.title
+        
+        //let path:String = url.path
+        
+        guard let path = comic.imgName else {
+            assert(false, "Invalid imgPath")
+        }
+        
+        let image = UIImage(contentsOfFile: (path))
+        
+        guard let img = image else {
+            assert(false, "Invalid img")
+        }
+        
+        self.comicObject.image = img
+        
+        //APIDataHelper.fetchImage(comic: comic) { (image) in
+        self.imageScrollView.display(image: img)
+        self.spinner.stopAnimating()
+         
+        self.currentComicNum = comic.comicNum
+        self.titleLabel.text = comic.title
+        
     }
     
     
@@ -218,19 +345,40 @@ class ViewController2: UIViewController {
     }
     
     
-    func methodOfReceivedNotification(notification: Notification){
+    func SaveImageOffline(saveObject :SaveComicModel) -> Bool {
+        //save image file to documents directory
+        //save link as part of object
+        
+        let fileManager = FileManager.default
+        do {
+            let documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+            let imageName = UUID().uuidString + ".jpg"
+
+            let fileURL = documentsDirectory.appendingPathComponent(imageName)
+            print(fileURL)
+            
+            if let imageData = UIImageJPEGRepresentation(self.comicObject.image, 0.5) {
+                try imageData.write(to: fileURL)
+                saveObject.imgName = imageName
+                return true
+            }
+        } catch {
+            print(error)
+        }
+        return false
+        
+    }
+    
+    
+    func SaveFavoriteComicNotification(notification: Notification){
         print("in the NSNotificatin receiver method")
         
         //NotificationCenter.default.removeObserver(self) //removed the observer
         
         let saveComicObject = SaveComicModel()
-        saveComicObject.comicLink = self.comicObject.comicLink
-        saveComicObject.comicNum = self.comicObject.comicNum
-        saveComicObject.imgURL = self.comicObject.imgURL
-        saveComicObject.title = self.comicObject.shortTitle
+
+        let myPrimaryKey = self.comicObject.imgURL
         
-        
-        let myPrimaryKey = saveComicObject.imgURL
         // Get the default Realm
         let realm = try! Realm()
         
@@ -247,9 +395,18 @@ class ViewController2: UIViewController {
             self.present(alert, animated: true)
         } else {
             //add our object to the DB
-            // Persist your data easily
+            // Persist data
+           if SaveImageOffline(saveObject: saveComicObject){
+            
+            saveComicObject.comicLink = self.comicObject.comicLink
+            saveComicObject.comicNum = self.comicObject.comicNum
+            saveComicObject.imgURL = self.comicObject.imgURL
+            saveComicObject.title = self.comicObject.shortTitle
+            
             try! realm.write {
-                realm.add(saveComicObject)
+                //call to save image?
+                    realm.add(saveComicObject)
+                }
             }
         }
     }
@@ -283,10 +440,46 @@ class ViewController2: UIViewController {
         self.imageScrollView.recover()
     }
     
+    func SetLoadFromDBNotification(notification: Notification){
+        loadFromDB = true
+    }
     
     func ShowFavoriteComicNotification(notification: Notification){
+        
         if let comic = notification.userInfo?["favorite"] as? SaveComicModel {
+            
+            let fileManager = FileManager.default
+            
+            do {
+            let documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+                
+            if let _ = comic.imgName?.isEmpty, !(comic.imgName?.isEmpty)! {
+                
+                let fileURL = documentsDirectory.appendingPathComponent((comic.imgName)!)
+
+                if let image = UIImage(contentsOfFile: (fileURL.path)){
+                
+                    self.comicObject.image = image
+                    self.imageScrollView.display(image: image)
+                    self.comicObject.shortTitle = comic.title
+                    self.comicObject.comicNum = comic.comicNum
+                    self.comicObject.comicLink = comic.comicLink
+                    self.comicObject.imgURL = comic.imgURL
+                    self.currentComicNum = comic.comicNum
+                    self.titleLabel.text = comic.title
+                    loadFromDB = true
+                }
+                else {
+                    //if not then fetch from api
+                    FetchComic(comicID: comic.comicNum)
+                }
+            } else {
+                //if not then fetch from api
                 FetchComic(comicID: comic.comicNum)
+            }
+        } catch{
+                print(error)
+            }
         }
     }
 }
