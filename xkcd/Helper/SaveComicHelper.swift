@@ -115,8 +115,6 @@ class SaveComicHelper {
     
     
     class func ShowFavoriteComicNotification(comicObject: ComicModel, comicSaveObject: SaveComicModel) -> Bool {
-        
-       // if let comic = notification.userInfo?["favorite"] as? SaveComicModel {
             
             let fileManager = FileManager.default
             
@@ -130,31 +128,22 @@ class SaveComicHelper {
                     if let image = UIImage(contentsOfFile: (fileURL.path)){
                         
                         comicObject.image = image
-                        //self.imageScrollView.display(image: image)
                         comicObject.shortTitle = comicSaveObject.title
                         comicObject.comicNum = comicSaveObject.comicNum
                         comicObject.comicLink = comicSaveObject.comicLink
                         comicObject.imgURL = comicSaveObject.imgURL
-                        //self.currentComicNum = comicSaveObject.comicNum
-                        //self.titleLabel.text = comicSaveObject.title
                         return true
-                        //loadFromDB = true
                     }
                     else {
-                        //if not then fetch from api
-                        //controller.FetchComic(comicID: comicObject.comicNum)
                         return false
                     }
                 } else {
-                    //if not then fetch from api
-                    //controller.FetchComic(comicID: comicObject.comicNum)
                     return false
                 }
             } catch{
                 print(error)
             }
-        return true
-       // }
+        return false
     }
 //    func snapshot(view :ImageScrollView ) -> (UIImage)
 //    {
