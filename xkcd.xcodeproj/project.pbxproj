@@ -17,7 +17,9 @@
 		730787B91F42CD0200E2CF4A /* ComicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730787B81F42CD0200E2CF4A /* ComicModel.swift */; };
 		730787BD1F43D57200E2CF4A /* ComicHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730787BC1F43D57200E2CF4A /* ComicHelper.swift */; };
 		730787BF1F44172D00E2CF4A /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730787BE1F44172D00E2CF4A /* ViewController2.swift */; };
+		731216B51F9E6D89005503A6 /* SaveComicHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731216B41F9E6D89005503A6 /* SaveComicHelper.swift */; };
 		737B17701F969103006ED75A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737B176F1F969103006ED75A /* Reachability.swift */; };
+		737B17721F9E591E006ED75A /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737B17711F9E591E006ED75A /* AlertHelper.swift */; };
 		73A4AC151F7AADC000E7D163 /* SideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A4AC141F7AADC000E7D163 /* SideMenuController.swift */; };
 		73A4AC171F7AB15B00E7D163 /* UITableViewVibrantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A4AC161F7AB15B00E7D163 /* UITableViewVibrantCell.swift */; };
 		73A4AC191F7B0A8F00E7D163 /* SaveComicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A4AC181F7B0A8F00E7D163 /* SaveComicModel.swift */; };
@@ -38,7 +40,9 @@
 		730787B81F42CD0200E2CF4A /* ComicModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicModel.swift; sourceTree = "<group>"; };
 		730787BC1F43D57200E2CF4A /* ComicHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicHelper.swift; sourceTree = "<group>"; };
 		730787BE1F44172D00E2CF4A /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
+		731216B41F9E6D89005503A6 /* SaveComicHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveComicHelper.swift; sourceTree = "<group>"; };
 		737B176F1F969103006ED75A /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		737B17711F9E591E006ED75A /* AlertHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 		73A4AC141F7AADC000E7D163 /* SideMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuController.swift; sourceTree = "<group>"; };
 		73A4AC161F7AB15B00E7D163 /* UITableViewVibrantCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewVibrantCell.swift; sourceTree = "<group>"; };
 		73A4AC181F7B0A8F00E7D163 /* SaveComicModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveComicModel.swift; sourceTree = "<group>"; };
@@ -90,23 +94,57 @@
 			isa = PBXGroup;
 			children = (
 				730787A41F42C3D400E2CF4A /* AppDelegate.swift */,
-				73E8E03C1F79C737000B1FE5 /* CustomCellTableViewCell.swift */,
-				73E8E03E1F79C850000B1FE5 /* CustomTableController.swift */,
-				730787A61F42C3D400E2CF4A /* ViewController.swift */,
-				730787BE1F44172D00E2CF4A /* ViewController2.swift */,
-				737B176F1F969103006ED75A /* Reachability.swift */,
-				73A4AC141F7AADC000E7D163 /* SideMenuController.swift */,
 				730787A81F42C3D400E2CF4A /* Main.storyboard */,
-				73A4AC161F7AB15B00E7D163 /* UITableViewVibrantCell.swift */,
-				730787B81F42CD0200E2CF4A /* ComicModel.swift */,
-				73A4AC181F7B0A8F00E7D163 /* SaveComicModel.swift */,
-				730787B61F42C7A900E2CF4A /* APIDataHelper.swift */,
-				730787BC1F43D57200E2CF4A /* ComicHelper.swift */,
+				731216B01F9E6C84005503A6 /* Helper */,
+				731216B11F9E6CDE005503A6 /* Controllers */,
+				731216B31F9E6D15005503A6 /* CellClasses */,
+				731216B21F9E6D06005503A6 /* Models */,
 				730787AB1F42C3D400E2CF4A /* Assets.xcassets */,
 				730787AD1F42C3D400E2CF4A /* LaunchScreen.storyboard */,
 				730787B01F42C3D400E2CF4A /* Info.plist */,
 			);
 			path = xkcd;
+			sourceTree = "<group>";
+		};
+		731216B01F9E6C84005503A6 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				737B17711F9E591E006ED75A /* AlertHelper.swift */,
+				730787BC1F43D57200E2CF4A /* ComicHelper.swift */,
+				730787B61F42C7A900E2CF4A /* APIDataHelper.swift */,
+				737B176F1F969103006ED75A /* Reachability.swift */,
+				731216B41F9E6D89005503A6 /* SaveComicHelper.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		731216B11F9E6CDE005503A6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				730787BE1F44172D00E2CF4A /* ViewController2.swift */,
+				73A4AC141F7AADC000E7D163 /* SideMenuController.swift */,
+				730787A61F42C3D400E2CF4A /* ViewController.swift */,
+				73E8E03E1F79C850000B1FE5 /* CustomTableController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		731216B21F9E6D06005503A6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				730787B81F42CD0200E2CF4A /* ComicModel.swift */,
+				73A4AC181F7B0A8F00E7D163 /* SaveComicModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		731216B31F9E6D15005503A6 /* CellClasses */ = {
+			isa = PBXGroup;
+			children = (
+				73E8E03C1F79C737000B1FE5 /* CustomCellTableViewCell.swift */,
+				73A4AC161F7AB15B00E7D163 /* UITableViewVibrantCell.swift */,
+			);
+			path = CellClasses;
 			sourceTree = "<group>";
 		};
 		E6C7D42DA8EFA5CFFC7DF540 /* Pods */ = {
@@ -242,6 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				737B17721F9E591E006ED75A /* AlertHelper.swift in Sources */,
 				730787A71F42C3D400E2CF4A /* ViewController.swift in Sources */,
 				73A4AC191F7B0A8F00E7D163 /* SaveComicModel.swift in Sources */,
 				737B17701F969103006ED75A /* Reachability.swift in Sources */,
@@ -249,6 +288,7 @@
 				73A4AC171F7AB15B00E7D163 /* UITableViewVibrantCell.swift in Sources */,
 				730787B71F42C7A900E2CF4A /* APIDataHelper.swift in Sources */,
 				73E8E03D1F79C737000B1FE5 /* CustomCellTableViewCell.swift in Sources */,
+				731216B51F9E6D89005503A6 /* SaveComicHelper.swift in Sources */,
 				73A4AC151F7AADC000E7D163 /* SideMenuController.swift in Sources */,
 				730787A51F42C3D400E2CF4A /* AppDelegate.swift in Sources */,
 				73E8E03F1F79C850000B1FE5 /* CustomTableController.swift in Sources */,

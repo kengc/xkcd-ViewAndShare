@@ -32,6 +32,7 @@ class ViewController2: UIViewController {
     var currentComicNum:Int = 1
     var comicObject = ComicModel()
     var loadFromDB = false
+    let alertHelper = AlertHelper()
     
     override func viewDidAppear(_ animated: Bool) {
         if !loadFromDB{
@@ -43,10 +44,6 @@ class ViewController2: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //getComic()
-        
-        //randomButton.frame.size.width = 65.0
-        
         titleLabel.lineBreakMode = .byWordWrapping;
         titleLabel.numberOfLines = 0;
         spinner.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
@@ -110,12 +107,12 @@ class ViewController2: UIViewController {
     
     func getComic(){
         
-        if CheckNetworkStatus(){
+        if CheckNetworkStatus(fromController: self){
         
             APIDataHelper.fetchComic(comicNum: 0)  { (comic, error) in
             
                 if let error = error {
-                    self.displayAlert(error: error)
+                    self.alertHelper.displayAlert(fromController: self, error: error)
                 } else {
                 
                     self.totalComicNum = comic.comicNum
@@ -130,10 +127,10 @@ class ViewController2: UIViewController {
     
     @IBAction func lastAction(_ sender: UIButton) {
         
-      if CheckNetworkStatus(){
+      if CheckNetworkStatus(fromController: self){
         APIDataHelper.fetchComic(comicNum: 0) { (comic, error) in
             if let error = error {
-                self.displayAlert(error: error)
+                self.alertHelper.displayAlert(fromController: self, error: error)
             } else {
                 self.totalComicNum = comic.comicNum
                 self.SetViewWithAPIImage(comic:comic)
@@ -146,7 +143,7 @@ class ViewController2: UIViewController {
     
     @IBAction func RandomAction(_ sender: UIButton) {
         //get random number
-        if CheckNetworkStatus(){
+        if CheckNetworkStatus(fromController: self){
             if (self.totalComicNum < 1){
                 getComic()
             }
@@ -162,7 +159,7 @@ class ViewController2: UIViewController {
     
     @IBAction func NextAction(_ sender: UIButton) {
         
-        if CheckNetworkStatus(){
+        if CheckNetworkStatus(fromController: self){
             
             if totalComicNum < 2 {
                 getComic()
@@ -177,7 +174,7 @@ class ViewController2: UIViewController {
     
     @IBAction func PrevAction(_ sender: UIButton) {
       
-        if CheckNetworkStatus(){
+        if CheckNetworkStatus(fromController: self){
             if currentComicNum > 1 {
                 FetchComic(comicID: currentComicNum - 1)
             } else {
@@ -189,7 +186,7 @@ class ViewController2: UIViewController {
     }
     
     @IBAction func firstAction(_ sender: UIButton) {
-       if CheckNetworkStatus(){
+       if CheckNetworkStatus(fromController: self){
             FetchComic(comicID: 1)
         } else {
             self.SetDefaultImage()
@@ -198,12 +195,12 @@ class ViewController2: UIViewController {
     
    
     
-    func FetchComic(comicID: Int){
+   public func FetchComic(comicID: Int){
         
-      if CheckNetworkStatus(){
+      if CheckNetworkStatus(fromController: self){
         APIDataHelper.fetchComic(comicNum: comicID) { (comic, error) in
             if let error = error {
-                self.displayAlert(error: error)
+                self.alertHelper.displayAlert(fromController: self, error: error)
             } else {
                 self.SetViewWithAPIImage(comic:comic)
             }
@@ -213,48 +210,6 @@ class ViewController2: UIViewController {
         }
     }
     
-    
-    func displayAlert(error: Error){
-        
-        let alert = UIAlertController(title: "Error retrieving comic", message: "\(error)", preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-            print("OK")
-        })
-        
-        self.present(alert, animated: true)
-    }
-    
-    
-    
-    func CheckNetworkStatus() -> Bool {
-        
-        var available = true
-        
-        Reachability.isInternetAvailable(webSiteToPing: nil) { (isInternetAvailable) in
-            if !(isInternetAvailable) {
-            
-            //guard isInternetAvailable else {
-                // Inform user for example
-                //var errorTemp = NSError(domain:"", code:.statusCode, userInfo:nil)
-                //"No connectivity available")
-                let userInfo: [AnyHashable : Any] =
-                    [
-                        NSLocalizedDescriptionKey :  NSLocalizedString("No Network Connectivity", value: "No Network Connectivity", comment: "") ,
-                        // NSLocalizedFailureReasonErrorKey : NSLocalizedString("Unauthorized", value: "Account not activated", comment: "")
-                        //NSLocalizedFailureReasonErrorKey : NSLocalizedString("Unauthorized", value: "Account not activated", comment: "")
-                ]
-                let err = NSError(domain: "ShiploopHttpResponseErrorDomain", code: 401, userInfo: userInfo)
-                print("Error in Post: \(err.localizedDescription)")
-                
-                self.displayAlert(error: err)
-                available = false
-            } else{
-                available = true
-            }
-        }
-        return available
-    }
     
     func SetViewWithAPIImage(comic:ComicModel){
         
@@ -298,13 +253,15 @@ class ViewController2: UIViewController {
         //let path:String = url.path
         
         guard let path = comic.imgName else {
-            assert(false, "Invalid imgPath")
+            //assert(false, "Invalid imgPath")
+            return
         }
         
         let image = UIImage(contentsOfFile: (path))
         
         guard let img = image else {
-            assert(false, "Invalid img")
+            //assert(false, "Invalid img")
+            return
         }
         
         self.comicObject.image = img
@@ -323,116 +280,118 @@ class ViewController2: UIViewController {
         print("inside saveACion")
         
 //        let image = snapshot(view: self.imageScrollView)
-//
 //        ShareToMedia(image: image)
          ShareToMedia()
     }
     
     
-    func snapshot(view :ImageScrollView ) -> (UIImage)
-    {
 
-        UIGraphicsBeginImageContextWithOptions(imageScrollView.bounds.size, true, 0);
-        
-        print("images size is: ", self.comicObject.image.size)
-
-        imageScrollView.drawHierarchy(in: imageScrollView.bounds, afterScreenUpdates: true)
-        
-        let image :UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        return image;
-    }
     
     
-    func SaveImageOffline(saveObject :SaveComicModel) -> Bool {
-        //save image file to documents directory
-        //save link as part of object
-        
-        let fileManager = FileManager.default
-        do {
-            let documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
-            let imageName = UUID().uuidString + ".jpg"
-
-            let fileURL = documentsDirectory.appendingPathComponent(imageName)
-            print(fileURL)
-            
-            if let imageData = UIImageJPEGRepresentation(self.comicObject.image, 0.5) {
-                try imageData.write(to: fileURL)
-                saveObject.imgName = imageName
-                return true
-            }
-        } catch {
-            print(error)
-        }
-        return false
-        
-    }
-    
+//    func SaveImageOffline(saveObject :SaveComicModel) -> Bool {
+//        //save image file to documents directory
+//        //save link as part of object
+//        
+//        let fileManager = FileManager.default
+//        do {
+//            let documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+//            let imageName = UUID().uuidString + ".jpg"
+//
+//            let fileURL = documentsDirectory.appendingPathComponent(imageName)
+//            print(fileURL)
+//            
+//            if let imageData = UIImageJPEGRepresentation(self.comicObject.image, 0.5) {
+//                try imageData.write(to: fileURL)
+//                saveObject.imgName = imageName
+//                return true
+//            }
+//        } catch {
+//            print(error)
+//        }
+//        return false
+//        
+//    }
+//    
     
     func SaveFavoriteComicNotification(notification: Notification){
         print("in the NSNotificatin receiver method")
         
         //NotificationCenter.default.removeObserver(self) //removed the observer
+        SaveComicHelper.SaveFavoriteComicNotification(fromController: self, comicObject: self.comicObject)
         
-        let saveComicObject = SaveComicModel()
-
-        let myPrimaryKey = self.comicObject.imgURL
-        
-        // Get the default Realm
-        let realm = try! Realm()
-        
-        let specificComic = realm.object(ofType: SaveComicModel.self, forPrimaryKey: myPrimaryKey)
-        
-        if specificComic != nil {
-            //don't add
-            let alert = UIAlertController(title: "Did Not Save", message: "Comic already exists", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-                print("OK")
-            })
-            
-            self.present(alert, animated: true)
-        } else {
-            //add our object to the DB
-            // Persist data
-           if SaveImageOffline(saveObject: saveComicObject){
-            
-            saveComicObject.comicLink = self.comicObject.comicLink
-            saveComicObject.comicNum = self.comicObject.comicNum
-            saveComicObject.imgURL = self.comicObject.imgURL
-            saveComicObject.title = self.comicObject.shortTitle
-            
-            try! realm.write {
-                //call to save image?
-                    realm.add(saveComicObject)
-                }
-            }
-        }
+//        let saveComicObject = SaveComicModel()
+//
+//        if (self.comicObject.imgURL.isEmpty){
+//
+//            let userInfo: [AnyHashable : Any] =
+//                [
+//                    NSLocalizedDescriptionKey :  NSLocalizedString("Invalid Comic", value: "Invalid Comic", comment: "") ,
+//            ]
+//            let error = NSError(domain: "", code: 401, userInfo: userInfo)
+//
+//            alertHelper.displayNoSaveAlert(fromController: self, error: error)
+//        } else
+//          {
+//
+//            // Get the default Realm
+//            let realm = try! Realm()
+//
+//            let specificComic = realm.object(ofType: SaveComicModel.self, forPrimaryKey: self.comicObject.imgURL)
+//
+//            if specificComic != nil {
+//                //don't add
+//
+//                let userInfo: [AnyHashable : Any] =
+//                    [
+//                        NSLocalizedDescriptionKey :  NSLocalizedString("Comic already exists", value: "Comic already exists", comment: "") ,
+//                  ]
+//                let error = NSError(domain: "", code: 401, userInfo: userInfo)
+//
+//                alertHelper.displayNoSaveAlert(fromController: self, error: error)
+//
+//            } else {
+//                //add our object to the DB
+//                // Persist data
+//               if SaveImageOffline(saveObject: saveComicObject){
+//
+//                saveComicObject.comicLink = self.comicObject.comicLink
+//                saveComicObject.comicNum = self.comicObject.comicNum
+//                saveComicObject.imgURL = self.comicObject.imgURL
+//                saveComicObject.title = self.comicObject.shortTitle
+//
+//                try! realm.write {
+//                    //call to save image?
+//                        realm.add(saveComicObject)
+//                    }
+//                }
+//            }
+//        }
     }
     
-    
-    
-     public func ShareToMedia(){
-        
-        let myWebsite = NSURL(string:self.comicObject.imgURL)
 
-        let shareItems:Array = [myWebsite as Any]
+     public func ShareToMedia(){
+
+        SaveComicHelper.ShareToMedia(fromController: self, comicObject: self.comicObject)
         
-        let activityViewController:UIActivityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
         
-        activityViewController.excludedActivityTypes = []
-        
-        //if iPhone
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) {
-           self.present(activityViewController, animated: true, completion: nil)
-        } else { //if iPad
-            // Change Rect to position Popover
-            
-            let popoverCntlr = UIPopoverController(contentViewController: activityViewController)
-            popoverCntlr.present(from: CGRect(x: self.view.frame.size.width/2, y: self.view.frame.size.height/4,width: 0,height: 0), in: self.view, permittedArrowDirections: UIPopoverArrowDirection.any, animated: true)
-            
-        }
+//        let myWebsite = NSURL(string:self.comicObject.imgURL)
+//
+//        let shareItems:Array = [myWebsite as Any]
+//
+//        let activityViewController:UIActivityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
+//
+//        activityViewController.excludedActivityTypes = []
+//
+//        //if iPhone
+//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) {
+//           self.present(activityViewController, animated: true, completion: nil)
+//        } else { //if iPad
+//            // Change Rect to position Popover
+//
+//            let popoverCntlr = UIPopoverController(contentViewController: activityViewController)
+//            popoverCntlr.present(from: CGRect(x: self.view.frame.size.width/2, y: self.view.frame.size.height/4,width: 0,height: 0), in: self.view, permittedArrowDirections: UIPopoverArrowDirection.any, animated: true)
+//
+//        }
     }
     
     
@@ -443,43 +402,62 @@ class ViewController2: UIViewController {
     func SetLoadFromDBNotification(notification: Notification){
         loadFromDB = true
     }
+ 
     
     func ShowFavoriteComicNotification(notification: Notification){
-        
+
         if let comic = notification.userInfo?["favorite"] as? SaveComicModel {
             
-            let fileManager = FileManager.default
-            
-            do {
-            let documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
-                
-            if let _ = comic.imgName?.isEmpty, !(comic.imgName?.isEmpty)! {
-                
-                let fileURL = documentsDirectory.appendingPathComponent((comic.imgName)!)
-
-                if let image = UIImage(contentsOfFile: (fileURL.path)){
-                
-                    self.comicObject.image = image
-                    self.imageScrollView.display(image: image)
-                    self.comicObject.shortTitle = comic.title
-                    self.comicObject.comicNum = comic.comicNum
-                    self.comicObject.comicLink = comic.comicLink
-                    self.comicObject.imgURL = comic.imgURL
-                    self.currentComicNum = comic.comicNum
-                    self.titleLabel.text = comic.title
-                    loadFromDB = true
-                }
-                else {
-                    //if not then fetch from api
-                    FetchComic(comicID: comic.comicNum)
-                }
+            if true == (SaveComicHelper.ShowFavoriteComicNotification(comicObject: self.comicObject, comicSaveObject: comic))
+            {
+                self.imageScrollView.display(image: self.comicObject.image)
+                self.currentComicNum = self.comicObject.comicNum
+                self.titleLabel.text = self.comicObject.shortTitle
+                loadFromDB = true
             } else {
-                //if not then fetch from api
                 FetchComic(comicID: comic.comicNum)
             }
-        } catch{
-                print(error)
-            }
-        }
     }
+  
+//    func ShowFavoriteComicNotification(notification: Notification){
+//
+//        if let comic = notification.userInfo?["favorite"] as? SaveComicModel {
+//
+//            SaveComicHelper.ShowFavoriteComicNotification(notification: <#T##Notification#>)
+//
+////            let fileManager = FileManager.default
+////
+////            do {
+////            let documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+////
+////            if let _ = comic.imgName?.isEmpty, !(comic.imgName?.isEmpty)! {
+////
+////                let fileURL = documentsDirectory.appendingPathComponent((comic.imgName)!)
+////
+////                if let image = UIImage(contentsOfFile: (fileURL.path)){
+////
+////                    self.comicObject.image = image
+////                    self.imageScrollView.display(image: image)
+////                    self.comicObject.shortTitle = comic.title
+////                    self.comicObject.comicNum = comic.comicNum
+////                    self.comicObject.comicLink = comic.comicLink
+////                    self.comicObject.imgURL = comic.imgURL
+////                    self.currentComicNum = comic.comicNum
+////                    self.titleLabel.text = comic.title
+////                    loadFromDB = true
+////                }
+////                else {
+////                    //if not then fetch from api
+////                    FetchComic(comicID: comic.comicNum)
+////                }
+////            } else {
+////                //if not then fetch from api
+////                FetchComic(comicID: comic.comicNum)
+////            }
+////        } catch{
+////                print(error)
+////            }
+////        }
+//    }
+}
 }

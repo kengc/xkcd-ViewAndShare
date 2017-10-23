@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6o6-7i-sN8">
-                                <rect key="frame" x="35.666666666666657" y="72" width="343" height="20.333333333333329"/>
+                                <rect key="frame" x="35.666666666666657" y="92" width="343" height="20.333333333333329"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="343" id="fdI-56-MyQ"/>
                                 </constraints>

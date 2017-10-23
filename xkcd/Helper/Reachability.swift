@@ -1,5 +1,6 @@
 import Foundation
 import SystemConfiguration
+import UIKit
 
 public class Reachability {
     
@@ -63,3 +64,30 @@ public class Reachability {
         task.resume()
     }
 }
+
+
+func CheckNetworkStatus(fromController controller: UIViewController) -> Bool {
+    
+    var available = true
+    let alertHelper = AlertHelper()
+    
+    Reachability.isInternetAvailable(webSiteToPing: nil) { (isInternetAvailable) in
+        if !(isInternetAvailable) {
+            
+            let userInfo: [AnyHashable : Any] =
+                [
+                    NSLocalizedDescriptionKey :  NSLocalizedString("No Network Connectivity", value: "No Network Connectivity", comment: "") ,
+                    // NSLocalizedFailureReasonErrorKey : NSLocalizedString("Unauthorized", value: "Account not activated", comment: "")
+            ]
+            let err = NSError(domain: "ShiploopHttpResponseErrorDomain", code: 401, userInfo: userInfo)
+            print("Error in Post: \(err.localizedDescription)")
+            
+            alertHelper.displayAlert(fromController: controller, error: err)
+            available = false
+        } else{
+            available = true
+        }
+    }
+    return available
+}
+
