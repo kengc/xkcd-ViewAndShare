@@ -105,11 +105,10 @@ class SaveComicHelper {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) {
             controller.present(activityViewController, animated: true, completion: nil)
         } else { //if iPad
-            // Change Rect to position Popover
             
-            let popoverCntlr = UIPopoverController(contentViewController: activityViewController)
-            popoverCntlr.present(from: CGRect(x: controller.view.frame.size.width/2, y: controller.view.frame.size.height/4,width: 0,height: 0), in: controller.view, permittedArrowDirections: UIPopoverArrowDirection.any, animated: true)
-            
+            activityViewController.popoverPresentationController?.sourceView = controller.view // so that iPads won't crash
+            activityViewController.popoverPresentationController?.sourceRect = CGRect(x: controller.view.frame.size.width/2, y: controller.view.frame.size.height/1,width: 0,height: 0)
+            controller.present(activityViewController, animated: true, completion: nil)
         }
     }
     

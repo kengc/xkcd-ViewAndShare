@@ -186,11 +186,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "xkcd/Controllers/ViewController2.swift"
-            timestampString = "530491042.19703"
+            timestampString = "530497556.245577"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "316"
-            endingLineNumber = "316">
+            endingLineNumber = "316"
+            landmarkName = "ShowFavoriteComicNotification(notification:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "xkcd/Helper/SaveComicHelper.swift"
+            timestampString = "530497556.245877"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "ShareToMedia(fromController:comicObject:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
