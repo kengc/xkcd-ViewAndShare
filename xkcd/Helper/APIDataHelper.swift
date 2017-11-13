@@ -35,9 +35,34 @@ class APIDataHelper {
         
          let task = URLSession.shared.dataTask(with: url, completionHandler: {(data, response, error) -> Void in
             
+            if error != nil{
+                print("Error \(String(describing: error))")
+                let co = ComicModel()
+                closure(co, error)
+                //return
+            }
+
+            //if response is status code 404 then abort
+            //have to set currentComicnum + 1 to skip passed current bad comic
+            //Status Code: 404
+            
+            // handle HTTP errors here
+            if let httpResponse = response as? HTTPURLResponse {
+                let statusCode = httpResponse.statusCode
+                
+                if (statusCode == 404) {
+                    print ("dataTaskWithRequest HTTP status code:", statusCode)
+                    let co = ComicModel()
+                    let alertHelper = AlertHelper()
+                    closure(co, alertHelper.get404Message())
+                }
+            }
             
             // convert Data to JSON
-            if let jsonUnformatted = try? JSONSerialization.jsonObject(with: data!, options: []) {
+            
+            if let data = data{
+                
+                if let jsonUnformatted = try? JSONSerialization.jsonObject(with: data, options: []) {
                 
                 
                 //value is AnyObject (can be either a dictionary, array, string or a number)
@@ -70,19 +95,18 @@ class APIDataHelper {
                     
                     closure(comicObject, nil)
                 }
-            }
-                
-            else{
-                print("error with response data")
+             } else {
+                print("**** error with response data ****")
+                let alertHelper = AlertHelper()
                 let co = ComicModel()
-                closure(co, error!)
+                closure(co, alertHelper.getResponseMessage())
+             }
             }
-            
-        })
+         })
         // this is called to start (or restart, if needed) our task
         task.resume()
         
-        print ("outside dataTaskWithURL")
+         print ("outside dataTaskWithURL")
         
     }
     
@@ -91,8 +115,10 @@ class APIDataHelper {
         //let urlstring = "https://lorempixel.com/400/200/"
         
         if comic.imgURL.isEmpty {
-            let img = UIImage()
-            closure(img)
+            let img = UIImage(named: "noimage")
+            if let image = img {
+                closure(image)
+            }
             
         } else {
         
@@ -105,13 +131,25 @@ class APIDataHelper {
         
         let task = URLSession.shared.dataTask(with: url, completionHandler: {(data, response, error) -> Void in
             
+            if error != nil{
+                print("Error \(String(describing: error))")
+                return
+            }
+            
             OperationQueue.main.addOperation {
              
                 if let imageData = data as NSData? {
                     let image = UIImage(data: imageData as Data)
-                    closure(image!)
+                    
+                    if let img = image {
+                        closure(img)
+                    } else {
+                        let img = UIImage(named: "noimage")
+                        if let image = img {
+                            closure(image)
+                        }
+                    }
                 }
-                
             }
             
         })

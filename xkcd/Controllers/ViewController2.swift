@@ -132,8 +132,10 @@ class ViewController2: UIViewController {
             if let error = error {
                 self.alertHelper.displayAlert(fromController: self, error: error)
             } else {
+                OperationQueue.main.addOperation {
                 self.totalComicNum = comic.comicNum
                 self.SetViewWithAPIImage(comic:comic)
+                }
             }
         }
       } else {
@@ -149,7 +151,7 @@ class ViewController2: UIViewController {
             }
             else {
                 let randomComicNum = ComicHelper.randomNumber(inRange: 1...self.totalComicNum)
-                FetchComic(comicID: randomComicNum)
+                FetchComic(comicID: randomComicNum, direction: 3)
             }
         } else {
             self.SetDefaultImage()
@@ -164,7 +166,7 @@ class ViewController2: UIViewController {
             if totalComicNum < 2 {
                 getComic()
             } else if currentComicNum != totalComicNum {
-                FetchComic(comicID: currentComicNum + 1)
+                FetchComic(comicID: currentComicNum + 1, direction: 1)
             }
         } else {
             self.SetDefaultImage()
@@ -176,7 +178,7 @@ class ViewController2: UIViewController {
       
         if CheckNetworkStatus(fromController: self){
             if currentComicNum > 1 {
-                FetchComic(comicID: currentComicNum - 1)
+                FetchComic(comicID: currentComicNum - 1, direction: 0)
             } else {
                 getComic()
             }
@@ -187,19 +189,23 @@ class ViewController2: UIViewController {
     
     @IBAction func firstAction(_ sender: UIButton) {
        if CheckNetworkStatus(fromController: self){
-            FetchComic(comicID: 1)
+        FetchComic(comicID: 1, direction: 3)
         } else {
             self.SetDefaultImage()
         }
     }
     
-   
-    
-   public func FetchComic(comicID: Int){
+    public func FetchComic(comicID: Int, direction: Int){
         
       if CheckNetworkStatus(fromController: self){
         APIDataHelper.fetchComic(comicNum: comicID) { (comic, error) in
             if let error = error {
+                if error.localizedDescription == "404 error from XKCD server" && direction == 1{
+                    self.currentComicNum = self.currentComicNum + 1
+                }
+                if error.localizedDescription == "404 error from XKCD server" && direction == 0 {
+                    self.currentComicNum = self.currentComicNum - 1
+                }
                 self.alertHelper.displayAlert(fromController: self, error: error)
             } else {
                 self.SetViewWithAPIImage(comic:comic)
@@ -221,7 +227,6 @@ class ViewController2: UIViewController {
     
             // Do some action if there is Internet
             APIDataHelper.fetchImage(comic: comic) { (image) in
-                
                 self.imageScrollView.display(image: image)
                 self.comicObject.image = image
                 self.spinner.stopAnimating()
@@ -318,7 +323,7 @@ class ViewController2: UIViewController {
                 self.titleLabel.text = self.comicObject.shortTitle
                 loadFromDB = true
             } else {
-                FetchComic(comicID: comic.comicNum)
+                FetchComic(comicID: comic.comicNum, direction: 3)
             }
        }
     }

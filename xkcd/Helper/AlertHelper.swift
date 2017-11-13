@@ -35,4 +35,25 @@ public class AlertHelper : UIAlertController {
         controller.present(alert, animated: true, completion: nil)
         
     }
+    
+    func get404Message() -> Error{
+        let userInfo: [AnyHashable : Any] =
+            [
+                NSLocalizedDescriptionKey :  NSLocalizedString("Error retrieving comic", value: "404 error from XKCD server", comment: "") ,
+                ]
+        let err = NSError(domain: "ShiploopHttpResponseErrorDomain", code: 401, userInfo: userInfo)
+        return err
+    }
+    
+    func getResponseMessage() -> Error{
+        let userInfo: [AnyHashable : Any] =
+            [
+            NSLocalizedDescriptionKey :  NSLocalizedString("Error retrieving comic", value: "Error with response data", comment: "") ,
+            // NSLocalizedFailureReasonErrorKey : NSLocalizedString("Unauthorized", value: "Account not activated", comment: "")
+            ]
+        let err = NSError(domain: "ShiploopHttpResponseErrorDomain", code: 401, userInfo: userInfo)
+        return err
+    }
+
+    
 }
